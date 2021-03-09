@@ -1,0 +1,556 @@
+{
+    "modelName": "Dinning By Friends",
+    "collections": [
+        {
+            "collectionName": "Person",
+            "type": "object",
+            "properties": [
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "name",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "b40b7f50-8030-11eb-a8cb-8f5c42934f3e",
+                    "error": {}
+                },
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "email",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "bc4a65f0-8030-11eb-a8cb-8f5c42934f3e",
+                    "format": "email"
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "7e85a0c0-8014-11eb-8068-ddb60bb92a61"
+            },
+            "isActivated": true,
+            "collectionUsers": [],
+            "GUID": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61"
+        },
+        {
+            "collectionName": "Restaurant",
+            "type": "object",
+            "properties": [
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "name",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "77d961e0-8031-11eb-a8cb-8f5c42934f3e",
+                    "error": {}
+                },
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "location",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "816d7840-8031-11eb-a8cb-8f5c42934f3e",
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "07a4d190-8016-11eb-8068-ddb60bb92a61"
+            },
+            "isActivated": true,
+            "collectionUsers": [],
+            "GUID": "07a4aa80-8016-11eb-8068-ddb60bb92a61",
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61"
+        },
+        {
+            "collectionName": "Cuisine",
+            "type": "object",
+            "properties": [
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "name",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "8e9def40-8031-11eb-a8cb-8f5c42934f3e",
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "2efe36a0-8016-11eb-8068-ddb60bb92a61"
+            },
+            "isActivated": true,
+            "collectionUsers": [],
+            "GUID": "2efde880-8016-11eb-8068-ddb60bb92a61",
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61"
+        },
+        {
+            "collectionName": "Review",
+            "type": "object",
+            "properties": [
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "text",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "4ad79500-8030-11eb-a8cb-8f5c42934f3e",
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "properties": [],
+                "GUID": "39d70200-8016-11eb-8068-ddb60bb92a61"
+            },
+            "isActivated": true,
+            "collectionUsers": [],
+            "GUID": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61",
+            "additionalProperties": false
+        }
+    ],
+    "buckets": [
+        {
+            "name": "g",
+            "type": "bucket",
+            "collectionIds": [
+                "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+                "07a4aa80-8016-11eb-8068-ddb60bb92a61",
+                "2efde880-8016-11eb-8068-ddb60bb92a61",
+                "39d6daf0-8016-11eb-8068-ddb60bb92a61"
+            ],
+            "backgroundColor": {
+                "r": 216,
+                "g": 0,
+                "b": 115,
+                "a": 1
+            },
+            "show": true,
+            "isActivated": true,
+            "traversalSource": "g",
+            "GUID": "44048420-8014-11eb-8068-ddb60bb92a61"
+        }
+    ],
+    "views": [],
+    "relationships": [
+        {
+            "name": "Friends",
+            "relationshipType": "",
+            "parentField": [],
+            "parentCardinality": "1",
+            "childField": [],
+            "childCardinality": "1",
+            "level": "entity",
+            "GUID": "d29a3750-8016-11eb-8068-ddb60bb92a61",
+            "lineSize": 2,
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61",
+            "parentCollection": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+            "childCollection": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+            "properties": [
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "New property",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "0ae931b0-8017-11eb-8068-ddb60bb92a61"
+                }
+            ]
+        },
+        {
+            "name": "Serves",
+            "relationshipType": "",
+            "parentField": [],
+            "parentCardinality": "1",
+            "childField": [],
+            "childCardinality": "1",
+            "level": "entity",
+            "GUID": "b267a740-8018-11eb-8068-ddb60bb92a61",
+            "lineSize": 2,
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61",
+            "parentCollection": "07a4aa80-8016-11eb-8068-ddb60bb92a61",
+            "childCollection": "2efde880-8016-11eb-8068-ddb60bb92a61",
+            "properties": []
+        },
+        {
+            "name": "Writes",
+            "relationshipType": "",
+            "parentField": [],
+            "parentCardinality": "1",
+            "childField": [],
+            "childCardinality": "1",
+            "level": "entity",
+            "GUID": "bf61a4f0-8018-11eb-8068-ddb60bb92a61",
+            "lineSize": 2,
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61",
+            "parentCollection": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+            "childCollection": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
+            "properties": []
+        },
+        {
+            "name": "Rates",
+            "relationshipType": "",
+            "parentField": [],
+            "parentCardinality": "1",
+            "childField": [],
+            "childCardinality": "1",
+            "level": "entity",
+            "GUID": "c9159f60-8018-11eb-8068-ddb60bb92a61",
+            "lineSize": 2,
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61",
+            "parentCollection": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+            "childCollection": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
+            "properties": [
+                {
+                    "exclusiveMinimum": false,
+                    "exclusiveMaximum": false,
+                    "primaryKey": false,
+                    "childType": "number",
+                    "type": "numeric",
+                    "name": "value",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "2183a300-8031-11eb-a8cb-8f5c42934f3e",
+                    "mode": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                }
+            ]
+        },
+        {
+            "name": "Are About",
+            "relationshipType": "",
+            "parentField": [],
+            "parentCardinality": "1",
+            "childField": [],
+            "childCardinality": "1",
+            "level": "entity",
+            "GUID": "32ac6a30-8019-11eb-8068-ddb60bb92a61",
+            "lineSize": 2,
+            "bucketId": "44048420-8014-11eb-8068-ddb60bb92a61",
+            "parentCollection": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
+            "childCollection": "07a4aa80-8016-11eb-8068-ddb60bb92a61",
+            "properties": []
+        }
+    ],
+    "users": [],
+    "diagramViews": [],
+    "idToNameHashTable": {
+        "44048420-8014-11eb-8068-ddb60bb92a61": "g",
+        "7e8579b0-8014-11eb-8068-ddb60bb92a61": "Person",
+        "07a4aa80-8016-11eb-8068-ddb60bb92a61": "Restaurant",
+        "2efde880-8016-11eb-8068-ddb60bb92a61": "Cuisine",
+        "39d6daf0-8016-11eb-8068-ddb60bb92a61": "Review",
+        "d29a3750-8016-11eb-8068-ddb60bb92a61": "Friends",
+        "0ae931b0-8017-11eb-8068-ddb60bb92a61": "New property",
+        "b267a740-8018-11eb-8068-ddb60bb92a61": "Serves",
+        "bf61a4f0-8018-11eb-8068-ddb60bb92a61": "Writes",
+        "c9159f60-8018-11eb-8068-ddb60bb92a61": "Rates",
+        "32ac6a30-8019-11eb-8068-ddb60bb92a61": "Are About",
+        "4ad79500-8030-11eb-a8cb-8f5c42934f3e": "text",
+        "b40b7f50-8030-11eb-a8cb-8f5c42934f3e": "name",
+        "bc4a65f0-8030-11eb-a8cb-8f5c42934f3e": "email",
+        "2183a300-8031-11eb-a8cb-8f5c42934f3e": "value",
+        "77d961e0-8031-11eb-a8cb-8f5c42934f3e": "name",
+        "816d7840-8031-11eb-a8cb-8f5c42934f3e": "location",
+        "8e9def40-8031-11eb-a8cb-8f5c42934f3e": "name"
+    },
+    "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "2c2e7901-800f-11eb-8068-ddb60bb92a61"
+    },
+    "externalDefinitions": {
+        "type": "externalDefinitions",
+        "properties": [],
+        "GUID": "2c2e7902-800f-11eb-8068-ddb60bb92a61"
+    },
+    "sources": [],
+    "decorativeSymbols": [],
+    "dbVendor": "Apache TinkerPop",
+    "appTarget": "TinkerPop",
+    "creationTS": "2021-03-08T13:07:01.904Z",
+    "GUID": "2c2e7900-800f-11eb-8068-ddb60bb92a61",
+    "isLineageEnabled": false,
+    "dbVersion": "3.x",
+    "hideForeignMaster": false,
+    "hackoladeMeta": {
+        "namingConvention": "",
+        "validationErrors": {
+            "modelName": false
+        }
+    },
+    "lastModifTS": "2021-03-08T17:21:17.577Z",
+    "persistenceSchemaVersion": "4",
+    "isCreatedByPlugin": true,
+    "pluginInformation": {
+        "pluginName": "TinkerPop",
+        "pluginVersion": "0.1.6",
+        "pluginEngineVersion": "1.0.0"
+    },
+    "applicationInformation": {
+        "version": "4.3.10"
+    },
+    "settings": {
+        "centralPane": {
+            "dbLevel": {
+                "erd": [
+                    {
+                        "GUID": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+                        "x": 583.3333333333336,
+                        "y": 160.99999999999994,
+                        "width": 162,
+                        "height": 101,
+                        "color": {
+                            "hsl": {
+                                "h": 45.18218623481781,
+                                "s": 0.9919678714859438,
+                                "l": 0.5117647058823529,
+                                "a": 1
+                            },
+                            "hex": "#fec107",
+                            "rgb": {
+                                "r": 254,
+                                "g": 193,
+                                "b": 7,
+                                "a": 1
+                            },
+                            "hsv": {
+                                "h": 45.18218623481781,
+                                "s": 0.9724409448818897,
+                                "v": 0.996078431372549,
+                                "a": 1
+                            },
+                            "oldHue": 206.57142857142858,
+                            "source": "hex"
+                        }
+                    },
+                    {
+                        "GUID": "07a4aa80-8016-11eb-8068-ddb60bb92a61",
+                        "x": 94,
+                        "y": 456,
+                        "width": 184,
+                        "height": 112,
+                        "color": {
+                            "hsl": {
+                                "h": 14.454545454545455,
+                                "s": 0.990990990990991,
+                                "l": 0.5647058823529412,
+                                "a": 1
+                            },
+                            "hex": "#fe5722",
+                            "rgb": {
+                                "r": 254,
+                                "g": 87,
+                                "b": 34,
+                                "a": 1
+                            },
+                            "hsv": {
+                                "h": 14.454545454545455,
+                                "s": 0.8661417322834646,
+                                "v": 0.996078431372549,
+                                "a": 1
+                            },
+                            "oldHue": 206.57142857142858,
+                            "source": "hex"
+                        }
+                    },
+                    {
+                        "GUID": "2efde880-8016-11eb-8068-ddb60bb92a61",
+                        "x": 95,
+                        "y": 80,
+                        "width": 163,
+                        "height": 100,
+                        "color": {
+                            "hsl": {
+                                "h": 261.2903225806451,
+                                "s": 0.5123966942148761,
+                                "l": 0.4745098039215686,
+                                "a": 1
+                            },
+                            "hex": "#673bb7",
+                            "rgb": {
+                                "r": 103,
+                                "g": 59,
+                                "b": 183,
+                                "a": 1
+                            },
+                            "hsv": {
+                                "h": 261.2903225806451,
+                                "s": 0.6775956284153005,
+                                "v": 0.7176470588235294,
+                                "a": 1
+                            },
+                            "oldHue": 206.57142857142858,
+                            "source": "hex"
+                        }
+                    },
+                    {
+                        "GUID": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
+                        "x": 609.6666666666667,
+                        "y": 469.9999999999999,
+                        "width": 162,
+                        "height": 95,
+                        "color": {
+                            "hsl": {
+                                "h": 187.04225352112678,
+                                "s": 1,
+                                "l": 0.4176470588235294,
+                                "a": 1
+                            },
+                            "hex": "#00bcd5",
+                            "rgb": {
+                                "r": 0,
+                                "g": 188,
+                                "b": 213,
+                                "a": 1
+                            },
+                            "hsv": {
+                                "h": 187.04225352112678,
+                                "s": 1,
+                                "v": 0.8352941176470589,
+                                "a": 1
+                            },
+                            "oldHue": 339.7058823529412,
+                            "source": "hex"
+                        }
+                    },
+                    {
+                        "GUID": "d29a3750-8016-11eb-8068-ddb60bb92a61",
+                        "x": 383.00000000000034,
+                        "y": 81,
+                        "width": 195,
+                        "height": 47,
+                        "color": {
+                            "hex": "#333333"
+                        }
+                    },
+                    {
+                        "GUID": "b267a740-8018-11eb-8068-ddb60bb92a61",
+                        "x": 97,
+                        "y": 303,
+                        "width": 159,
+                        "height": 33,
+                        "color": {
+                            "hex": "#333333"
+                        }
+                    },
+                    {
+                        "GUID": "bf61a4f0-8018-11eb-8068-ddb60bb92a61",
+                        "x": 440.3333333333335,
+                        "y": 335.99999999999994,
+                        "width": 158,
+                        "height": 33,
+                        "color": {
+                            "hex": "#333333"
+                        }
+                    },
+                    {
+                        "GUID": "c9159f60-8018-11eb-8068-ddb60bb92a61",
+                        "x": 744.6666666666672,
+                        "y": 333.6666666666667,
+                        "width": 153,
+                        "height": 31,
+                        "color": {
+                            "hex": "#333333"
+                        }
+                    },
+                    {
+                        "GUID": "32ac6a30-8019-11eb-8068-ddb60bb92a61",
+                        "x": 360.66666666666674,
+                        "y": 496.3333333333335,
+                        "width": 185,
+                        "height": 40,
+                        "color": {
+                            "hex": "#333333"
+                        }
+                    }
+                ],
+                "buckets": [
+                    {
+                        "x": 54,
+                        "y": 40,
+                        "GUID": "44048420-8014-11eb-8068-ddb60bb92a61"
+                    }
+                ],
+                "collapsedNodes": [],
+                "activeRelationship": "",
+                "activeRelationshipFields": {
+                    "childField": [],
+                    "parentField": []
+                },
+                "selectedCollections": [],
+                "displayColorPicker": false,
+                "graphView": {
+                    "erd": [
+                        {
+                            "GUID": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
+                            "size": 100,
+                            "x": 477.4189104961783,
+                            "y": 109.76316214913201
+                        },
+                        {
+                            "GUID": "07a4aa80-8016-11eb-8068-ddb60bb92a61",
+                            "size": 100,
+                            "x": 177.80564707843632,
+                            "y": 418.38268536169
+                        },
+                        {
+                            "GUID": "2efde880-8016-11eb-8068-ddb60bb92a61",
+                            "size": 100,
+                            "x": 476.7838529916642,
+                            "y": 446.5765837591354
+                        },
+                        {
+                            "GUID": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
+                            "size": 100,
+                            "x": 177.23215307366306,
+                            "y": 117.78636820996981
+                        }
+                    ],
+                    "buckets": [
+                        {
+                            "x": 137.23215307366306,
+                            "y": 69.76316214913201,
+                            "GUID": "44048420-8014-11eb-8068-ddb60bb92a61"
+                        }
+                    ],
+                    "decorativeSymbols": [],
+                    "hideRelationshipName": false,
+                    "showPropertiesBoxes": false,
+                    "nameAlongTheLine": false,
+                    "forceLayout": true,
+                    "defaultLinkLength": 300
+                },
+                "diagramViews": [],
+                "decorativeSymbols": [],
+                "nestedCollectionsLayout": "horizontal",
+                "options": []
+            },
+            "collectionLevel": {},
+            "changed": false
+        },
+        "dtDiagram": {
+            "collapsedNodes": [],
+            "details": true,
+            "hideErdDetails": false,
+            "shouldDistributeCollections": false
+        }
+    }
+}

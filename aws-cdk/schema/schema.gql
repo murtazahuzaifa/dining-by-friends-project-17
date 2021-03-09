@@ -1,0 +1,198 @@
+type Person{
+	id: ID!
+	name: String!
+	email: String
+	friends: [PersonFriend]
+}
+
+type Restaurant{
+	id: ID!
+	name: String!
+	serves: [RestaurantCuisine]
+	reviews: [RestaurantReview]
+	location: Location!
+}
+
+type Cuisine{
+	id: ID!
+	name: String!
+	servedBy: CuisineServeByRestaurant!
+}
+
+type Review{
+	id: ID!
+	text: String!
+	datetime: Float!
+	wroteBy: ReviewByPerson!
+	rating: [ReviewRating]
+	isAbout: ReviewAboutRestaurant!
+}
+
+type Rate{
+	id: ID!
+	thumb: Thumb!
+	givenBy: RateByPerson!
+	givenTo: RateToReview!
+	datetime: Float!
+}
+
+type RestaurantCuisine{
+	cuisine_id: ID!
+	cuisine_name: String!
+}
+
+type RestaurantReview{
+	review_id: ID!
+	review_text: String!
+	review_datetime: Float!
+}
+
+type ReviewAboutRestaurant{
+	restaurant_id: ID!
+	restaurant_name: String!
+	restaurant_location: Location!
+}
+
+type ReviewRating{
+	rate_id: ID!
+	rate_thumb: Thumb!
+	rate_datetime: Float!
+}
+
+type ReviewByPerson{
+	person_id: ID!
+	person_name: String!
+	person_email: String
+}
+
+type PersonFriend{
+	person_id: ID!
+	person_name: String!
+	person_email: String
+}
+
+type RateByPerson{
+	person_id: ID!
+	person_name: String!
+	person_email: String
+}
+
+type RateToReview{
+	review_id: ID!
+	review_text: String!
+	review_datetime: Float!
+}
+
+type CuisineServeByRestaurant{
+	restaurant_id: ID!
+	restaurant_name: String!
+	restaurant_location: Location!
+}
+
+type Query{
+	person(
+		id: ID!
+	): Person!
+	persons: [Person]
+	restaurants: [Restaurant]
+	restaurant(
+		id: ID!
+	): Restaurant
+	person_friends(
+		person_id: ID
+	): [PersonFriend]
+	persons_relation(
+		person_x_id: ID
+		person_y_id: ID
+	): PersonsRelation!
+	top_rated_nearest_restaurants(
+		location: LocationInput!
+		limit: Int
+	): [TopRatedNearestRestaurant]
+	newest_review_of_restaurant(
+		restaurant_id: ID
+	): Review
+	recommended_restaurants_by_friends(
+		person_id: ID!
+	): [RecommendedRestaurant]
+	recent_feedback_to_restaurants_by_friends(person_id: ID!): [RecommendedRestaurant]
+}
+
+type Mutation{
+	add_person(
+		input: PersonInput!
+	): Person!
+	add_restaurant(
+		input: RestaurantInput!
+	): Restaurant!
+	write_review_for_restaurant(
+		input: ReviewInput
+	): Review!
+	rate_to_review: Rate!
+	add_cuisine(
+		input: CuisineInput
+	): Cuisine!
+}
+
+input PersonInput{
+	name: String!
+	email: String
+}
+
+input RestaurantInput{
+	name: String!
+	location: LocationInput!
+}
+
+input CuisineInput{
+	name: String!
+	restaurantId: ID!
+}
+
+input ReviewInput{
+	text: String!
+	personId: ID!
+	restaurantId: ID!
+}
+
+input RateInput{
+	thumb: Thumb!
+	personId: ID!
+	reviewId: ID!
+	datetime: Float!
+}
+
+type Location{
+	units: Int!
+}
+
+input LocationInput{
+	units: Int
+}
+
+enum PersonsRelation{
+	FRIENDS
+	FRIEND_OF_FRIEND
+	UNKNOWN
+}
+
+enum Thumb{
+	UP
+	DOWN
+}
+
+type TopRatedNearestRestaurant{
+	restaurant_id: ID!
+	restaurant_name: String!
+	restaurant_location: Location!
+}
+
+type RecommendedRestaurant{
+	restaurant_id: ID!
+	restaurant_name: String!
+	restaurant_location: Location!
+}
+schema{
+	query: Query,
+	mutation: Mutation
+}
