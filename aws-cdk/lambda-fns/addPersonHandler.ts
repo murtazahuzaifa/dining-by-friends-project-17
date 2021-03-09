@@ -1,4 +1,5 @@
 import { Callback, Context, BasePostConfirmationTriggerEvent } from 'aws-lambda';
+import { g, gremlinQueryHandler, __ } from './gremlinQueryHandler';
 
 export const handler = async (event: BasePostConfirmationTriggerEvent<string>, context: Context, callback: Callback): Promise<void> => {
     console.log("EVENT==>", event);

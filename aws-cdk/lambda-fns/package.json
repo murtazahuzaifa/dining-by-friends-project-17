@@ -1,0 +1,14 @@
+{
+  "name": "lambda-fns",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^3.2.0",
+    "gremlin": "^3.4.10"
+  },
+  "devDependencies": {
+    "@types/async": "^3.2.5",
+    "@types/gremlin": "^3.4.6"
+  }
+}

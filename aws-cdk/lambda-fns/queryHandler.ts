@@ -1,5 +1,7 @@
 import { Callback, Context } from 'aws-lambda';
 import { NewAppSyncResolverEvent } from './typeDefs';
+import { g, gremlinQueryHandler, __ } from './gremlinQueryHandler';
+
 
 export const GQL_QUERRIES = {
     "person": "person",
@@ -19,13 +21,18 @@ export const handler = async (event: NewAppSyncResolverEvent<any>, context: Cont
     console.log("EVENT==>", event);
     const EVENT_ACTION = event.info.fieldName as keyof typeof GQL_QUERRIES;
 
-    switch (EVENT_ACTION) {
-        case "persons":
-            callback(null, [])
-            break;
+    try {
+        switch (EVENT_ACTION) {
+            case "persons":
+                callback(null, [])
+                break;
 
+        }
+
+    } catch (e) {
+        console.log("Error ==>", e);
+        callback(e, null);
     }
 
-    callback(null, [])
 
 }
