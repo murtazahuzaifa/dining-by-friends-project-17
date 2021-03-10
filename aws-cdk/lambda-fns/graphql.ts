@@ -134,12 +134,12 @@ export type Query = {
 
 
 export type QueryPersonArgs = {
-  id: Scalars['ID'];
+  person_id: Scalars['ID'];
 };
 
 
 export type QueryRestaurantArgs = {
-  id: Scalars['ID'];
+  restaurant_id: Scalars['ID'];
 };
 
 
@@ -199,6 +199,11 @@ export type MutationWrite_Review_For_RestaurantArgs = {
 };
 
 
+export type MutationRate_To_ReviewArgs = {
+  input?: Maybe<RateInput>;
+};
+
+
 export type MutationAdd_CuisineArgs = {
   input?: Maybe<CuisineInput>;
 };
@@ -220,7 +225,6 @@ export type CuisineInput = {
 
 export type ReviewInput = {
   text: Scalars['String'];
-  personId: Scalars['ID'];
   restaurantId: Scalars['ID'];
 };
 
@@ -517,10 +521,10 @@ export type CuisineServeByRestaurantResolvers<ContextType = any, ParentType exte
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  person?: Resolver<ResolversTypes['Person'], ParentType, ContextType, RequireFields<QueryPersonArgs, 'id'>>;
+  person?: Resolver<ResolversTypes['Person'], ParentType, ContextType, RequireFields<QueryPersonArgs, 'person_id'>>;
   persons?: Resolver<Maybe<Array<Maybe<ResolversTypes['Person']>>>, ParentType, ContextType>;
   restaurants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Restaurant']>>>, ParentType, ContextType>;
-  restaurant?: Resolver<Maybe<ResolversTypes['Restaurant']>, ParentType, ContextType, RequireFields<QueryRestaurantArgs, 'id'>>;
+  restaurant?: Resolver<Maybe<ResolversTypes['Restaurant']>, ParentType, ContextType, RequireFields<QueryRestaurantArgs, 'restaurant_id'>>;
   person_friends?: Resolver<Maybe<Array<Maybe<ResolversTypes['PersonFriend']>>>, ParentType, ContextType, RequireFields<QueryPerson_FriendsArgs, never>>;
   persons_relation?: Resolver<ResolversTypes['PersonsRelation'], ParentType, ContextType, RequireFields<QueryPersons_RelationArgs, never>>;
   top_rated_nearest_restaurants?: Resolver<Maybe<Array<Maybe<ResolversTypes['TopRatedNearestRestaurant']>>>, ParentType, ContextType, RequireFields<QueryTop_Rated_Nearest_RestaurantsArgs, 'location'>>;
@@ -533,7 +537,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   add_person?: Resolver<ResolversTypes['Person'], ParentType, ContextType, RequireFields<MutationAdd_PersonArgs, 'input'>>;
   add_restaurant?: Resolver<ResolversTypes['Restaurant'], ParentType, ContextType, RequireFields<MutationAdd_RestaurantArgs, 'input'>>;
   write_review_for_restaurant?: Resolver<ResolversTypes['Review'], ParentType, ContextType, RequireFields<MutationWrite_Review_For_RestaurantArgs, never>>;
-  rate_to_review?: Resolver<ResolversTypes['Rate'], ParentType, ContextType>;
+  rate_to_review?: Resolver<ResolversTypes['Rate'], ParentType, ContextType, RequireFields<MutationRate_To_ReviewArgs, never>>;
   add_cuisine?: Resolver<ResolversTypes['Cuisine'], ParentType, ContextType, RequireFields<MutationAdd_CuisineArgs, never>>;
 };
 

@@ -12,7 +12,7 @@ export let g: gprocess.GraphTraversalSource;
 export const { t, P, } = gprocess;
 export const __ = gprocess.statics;
 
-export async function gremlinQueryHandler(queryHandler: () => Promise<void>) {
+export async function gremlinQueryHandler(queryHandler: () => Promise<any>) {
 
     const getConnectionDetails = () => {
         const database_url = 'wss://' + process.env.NEPTUNE_ENDPOINT + ':8182/gremlin';

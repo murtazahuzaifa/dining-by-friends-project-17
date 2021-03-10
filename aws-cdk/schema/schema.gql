@@ -91,12 +91,12 @@ type CuisineServeByRestaurant{
 
 type Query{
 	person(
-		id: ID!
+		person_id: ID!
 	): Person!
 	persons: [Person]
 	restaurants: [Restaurant]
 	restaurant(
-		id: ID!
+		restaurant_id: ID!
 	): Restaurant
 	person_friends(
 		person_id: ID
@@ -115,7 +115,9 @@ type Query{
 	recommended_restaurants_by_friends(
 		person_id: ID!
 	): [RecommendedRestaurant]
-	recent_feedback_to_restaurants_by_friends(person_id: ID!): [RecommendedRestaurant]
+	recent_feedback_to_restaurants_by_friends(
+		person_id: ID!
+	): [RecommendedRestaurant]
 }
 
 type Mutation{
@@ -128,7 +130,9 @@ type Mutation{
 	write_review_for_restaurant(
 		input: ReviewInput
 	): Review!
-	rate_to_review: Rate!
+	rate_to_review(
+		input: RateInput
+	): Rate!
 	add_cuisine(
 		input: CuisineInput
 	): Cuisine!
@@ -151,7 +155,6 @@ input CuisineInput{
 
 input ReviewInput{
 	text: String!
-	personId: ID!
 	restaurantId: ID!
 }
 

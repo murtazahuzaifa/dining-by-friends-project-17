@@ -18,6 +18,7 @@ export class AwsCdkStack extends cdk.Stack {
         { cidrMask: 24, name: `${id.toLowerCase().replace('-', '')}subnet`, subnetType: ec2.SubnetType.ISOLATED, }
       ]
     });
+    /* creating a security group */
     const sg1 = new ec2.SecurityGroup(this, id + "-neptuneSecurityGroup1", {
       vpc,
       allowAllOutbound: true,
@@ -25,6 +26,8 @@ export class AwsCdkStack extends cdk.Stack {
       securityGroupName: id + "-neptuneSecurityGroup1",
     });
     cdk.Tags.of(sg1).add("Name", id + "-neptuneSecurityGroup1");
+    /* allowing inbound traffic on port 8182 */
+    sg1.addIngressRule(sg1, ec2.Port.tcp(8182), "graphDBRule");
 
 
     //////////////////////// Creating neptune cluster /////////////////////////////////
@@ -54,9 +57,9 @@ export class AwsCdkStack extends cdk.Stack {
     const userPool = new cognito.UserPool(this, `${this.stackName}_USER_POOL`, {
       selfSignUpEnabled: true,
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
-      // userVerification: {
-      //   emailStyle: cognito.VerificationEmailStyle.CODE,
-      // },
+      userVerification: {
+        emailStyle: cognito.VerificationEmailStyle.CODE,
+      },
       autoVerify: { email: true, },
       standardAttributes: {
         email: { required: true, mutable: true, },
@@ -83,9 +86,9 @@ export class AwsCdkStack extends cdk.Stack {
     ////////////////////////// creating lambdas //////////////////////////////////
 
     const lambdaNames = {
-      QueryHandler: "QueryHandler",
-      MutationHandler: "MutationHandler",
-      AddPersonHandler: "AddPersonHandler",
+      queryHandler: "queryHandler",
+      mutationHandler: "mutationHandler",
+      addPersonHandler: "addPersonHandler",
     }
     const lambdaFn: { [P in keyof typeof lambdaNames]?: lambda.IFunction } = {};
 
@@ -93,7 +96,7 @@ export class AwsCdkStack extends cdk.Stack {
       const key = name as keyof typeof lambdaNames
       lambdaFn[key] = new lambda.Function(this, name, {
         code: lambda.Code.fromAsset('lambda-fns'),
-        handler: 'queryHandler.handler',
+        handler: `${name}.handler`,
         runtime: lambda.Runtime.NODEJS_12_X,
         timeout: cdk.Duration.seconds(30),
         vpc: vpc,
@@ -105,11 +108,12 @@ export class AwsCdkStack extends cdk.Stack {
       });
     })
 
-    userPool.addTrigger(cognito.UserPoolOperation.POST_CONFIRMATION, lambdaFn['AddPersonHandler']!)
+    /* Adding trigger on signup */
+    userPool.addTrigger(cognito.UserPoolOperation.POST_CONFIRMATION, lambdaFn['addPersonHandler']!)
 
     ///////////////////////// Creating Appsync Resolvers /////////////////////////
-    const queryResolverDS = api.addLambdaDataSource("queryResolver", lambdaFn['QueryHandler']!);
-    const mutationResolverDS = api.addLambdaDataSource("mutationResolver", lambdaFn['MutationHandler']!);
+    const queryResolverDS = api.addLambdaDataSource("queryResolver", lambdaFn['queryHandler']!);
+    const mutationResolverDS = api.addLambdaDataSource("mutationResolver", lambdaFn['mutationHandler']!);
 
     Object.keys(GQL_QUERRIES).forEach((query) => {
       queryResolverDS.createResolver({

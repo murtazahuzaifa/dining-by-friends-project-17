@@ -13,7 +13,7 @@
                     "isActivated": true,
                     "propCardinality": "single",
                     "GUID": "b40b7f50-8030-11eb-a8cb-8f5c42934f3e",
-                    "error": {}
+                    "required": true
                 },
                 {
                     "primaryKey": false,
@@ -24,6 +24,17 @@
                     "propCardinality": "single",
                     "GUID": "bc4a65f0-8030-11eb-a8cb-8f5c42934f3e",
                     "format": "email"
+                },
+                {
+                    "primaryKey": false,
+                    "type": "string",
+                    "name": "_id",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "84297d60-8115-11eb-a8cb-8f5c42934f3e",
+                    "required": true,
+                    "error": {}
                 }
             ],
             "definitions": {
@@ -48,7 +59,7 @@
                     "isActivated": true,
                     "propCardinality": "single",
                     "GUID": "77d961e0-8031-11eb-a8cb-8f5c42934f3e",
-                    "error": {}
+                    "required": true
                 },
                 {
                     "primaryKey": false,
@@ -58,7 +69,7 @@
                     "isActivated": true,
                     "propCardinality": "single",
                     "GUID": "816d7840-8031-11eb-a8cb-8f5c42934f3e",
-                    "error": {}
+                    "required": true
                 }
             ],
             "definitions": {
@@ -83,7 +94,7 @@
                     "isActivated": true,
                     "propCardinality": "single",
                     "GUID": "8e9def40-8031-11eb-a8cb-8f5c42934f3e",
-                    "error": {}
+                    "required": true
                 }
             ],
             "definitions": {
@@ -108,7 +119,18 @@
                     "isActivated": true,
                     "propCardinality": "single",
                     "GUID": "4ad79500-8030-11eb-a8cb-8f5c42934f3e",
-                    "error": {}
+                    "required": true
+                },
+                {
+                    "primaryKey": false,
+                    "childType": "timestamp",
+                    "type": "number",
+                    "name": "datetime",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "62da7da0-8113-11eb-a8cb-8f5c42934f3e",
+                    "required": true
                 }
             ],
             "definitions": {
@@ -217,19 +239,29 @@
             "childCollection": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
             "properties": [
                 {
-                    "exclusiveMinimum": false,
-                    "exclusiveMaximum": false,
                     "primaryKey": false,
-                    "childType": "number",
-                    "type": "numeric",
-                    "name": "value",
+                    "type": "string",
+                    "name": "thumb",
                     "hackoladeMeta": {},
                     "isActivated": true,
                     "propCardinality": "single",
                     "GUID": "2183a300-8031-11eb-a8cb-8f5c42934f3e",
-                    "mode": "integer",
-                    "minimum": 1,
-                    "maximum": 5
+                    "enum": [
+                        "UP",
+                        "DOWN"
+                    ],
+                    "required": true
+                },
+                {
+                    "primaryKey": false,
+                    "childType": "timestamp",
+                    "type": "number",
+                    "name": "datetime",
+                    "hackoladeMeta": {},
+                    "isActivated": true,
+                    "propCardinality": "single",
+                    "GUID": "ec2e9690-8113-11eb-a8cb-8f5c42934f3e",
+                    "required": true
                 }
             ]
         },
@@ -266,10 +298,13 @@
         "4ad79500-8030-11eb-a8cb-8f5c42934f3e": "text",
         "b40b7f50-8030-11eb-a8cb-8f5c42934f3e": "name",
         "bc4a65f0-8030-11eb-a8cb-8f5c42934f3e": "email",
-        "2183a300-8031-11eb-a8cb-8f5c42934f3e": "value",
+        "2183a300-8031-11eb-a8cb-8f5c42934f3e": "thumb",
         "77d961e0-8031-11eb-a8cb-8f5c42934f3e": "name",
         "816d7840-8031-11eb-a8cb-8f5c42934f3e": "location",
-        "8e9def40-8031-11eb-a8cb-8f5c42934f3e": "name"
+        "8e9def40-8031-11eb-a8cb-8f5c42934f3e": "name",
+        "62da7da0-8113-11eb-a8cb-8f5c42934f3e": "datetime",
+        "ec2e9690-8113-11eb-a8cb-8f5c42934f3e": "datetime",
+        "84297d60-8115-11eb-a8cb-8f5c42934f3e": "_id"
     },
     "definitions": {
         "type": "definitions",
@@ -286,7 +321,7 @@
     "dbVendor": "Apache TinkerPop",
     "appTarget": "TinkerPop",
     "creationTS": "2021-03-08T13:07:01.904Z",
-    "GUID": "2c2e7900-800f-11eb-8068-ddb60bb92a61",
+    "GUID": "2b1ad580-8114-11eb-a8cb-8f5c42934f3e",
     "isLineageEnabled": false,
     "dbVersion": "3.x",
     "hideForeignMaster": false,
@@ -296,7 +331,7 @@
             "modelName": false
         }
     },
-    "lastModifTS": "2021-03-08T17:21:17.577Z",
+    "lastModifTS": "2021-03-10T01:26:58.132Z",
     "persistenceSchemaVersion": "4",
     "isCreatedByPlugin": true,
     "pluginInformation": {
@@ -502,32 +537,32 @@
                         {
                             "GUID": "7e8579b0-8014-11eb-8068-ddb60bb92a61",
                             "size": 100,
-                            "x": 477.4189104961783,
-                            "y": 109.76316214913201
+                            "x": 475.18271374164664,
+                            "y": 120.99980232609396
                         },
                         {
                             "GUID": "07a4aa80-8016-11eb-8068-ddb60bb92a61",
                             "size": 100,
-                            "x": 177.80564707843632,
-                            "y": 418.38268536169
+                            "x": 174.44487892972597,
+                            "y": 437.1056865917571
                         },
                         {
                             "GUID": "2efde880-8016-11eb-8068-ddb60bb92a61",
                             "size": 100,
-                            "x": 476.7838529916642,
-                            "y": 446.5765837591354
+                            "x": 472.09409043157393,
+                            "y": 476.98427456299277
                         },
                         {
                             "GUID": "39d6daf0-8016-11eb-8068-ddb60bb92a61",
                             "size": 100,
-                            "x": 177.23215307366306,
-                            "y": 117.78636820996981
+                            "x": 175.29468807529068,
+                            "y": 136.50941873729485
                         }
                     ],
                     "buckets": [
                         {
-                            "x": 137.23215307366306,
-                            "y": 69.76316214913201,
+                            "x": 134.44487892972597,
+                            "y": 80.99980232609396,
                             "GUID": "44048420-8014-11eb-8068-ddb60bb92a61"
                         }
                     ],

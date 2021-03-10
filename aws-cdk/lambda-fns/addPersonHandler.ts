@@ -1,13 +1,33 @@
 import { Callback, Context, BasePostConfirmationTriggerEvent } from 'aws-lambda';
 import { g, gremlinQueryHandler, __ } from './gremlinQueryHandler';
+import { collections } from './graphDatabaseScheme.json';
+import { Person } from './graphql';
 
-export const handler = async (event: BasePostConfirmationTriggerEvent<string>, context: Context, callback: Callback): Promise<void> => {
+export const handler = async (event: BasePostConfirmationTriggerEvent<string>, context: Context, callback: Callback):Promise<any> => {
     console.log("EVENT==>", event);
 
     try {
-        console.log('new person added')
+        await gremlinQueryHandler(async () => {
+            const result = await g.addV(collections[0].collectionName as "Person")
+                .property("_id", event.request.userAttributes.sub)
+                .property("email", event.request.userAttributes.email)
+                .property("name", event.userName)
+                .elementMap()
+                .next();
 
-        callback(null, event);
+            console.log(result);
+
+            // callback(null, {
+            //     id: result.value.id,
+            //     name: result.value.name,
+            //     email: result.value.email,
+            //     friends: []
+            // } as Person);
+
+        })
+
+        return event
+
 
     } catch (e) {
         callback(e, null);
@@ -20,21 +40,21 @@ expected event
 {
   version: '1',
   region: 'us-east-1',
-  userPoolId: 'us-east-1_j6yA3j5pt',
-  userName: 'murtazahuzaifa',
+  userPoolId: 'us-east-1_xxxxxxxt',
+  userName: 'user name',
   callerContext: {
     awsSdkVersion: 'aws-sdk-unknown-unknown',
-    clientId: '6h2vacq1pbfighdh0022qmrv2b'
+    clientId: '6hxxxxxxxxxxxxxxxxxxxv2b'
   },
   triggerSource: 'PostConfirmation_ConfirmSignUp',
   request: {
     userAttributes: {
-      sub: 'f5a46c3e-7d45-4334-b3de-ab92ad97e054',
+      sub: 'xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx',
       'cognito:user_status': 'CONFIRMED',
       email_verified: 'true',
       phone_number_verified: 'false',
       phone_number: '+13423567',
-      email: 'murtaza.huzaifa2@gmail.com'
+      email: 'example@gmail.com'
     }
   },
   response: {}
