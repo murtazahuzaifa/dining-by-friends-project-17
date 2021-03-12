@@ -98,15 +98,13 @@ type Query{
 	restaurant(
 		restaurant_id: ID!
 	): Restaurant
-	person_friends(
-		person_id: ID
-	): [PersonFriend]
+	my_friends: [PersonFriend]
 	persons_relation(
-		person_x_id: ID
-		person_y_id: ID
+		person_x_id: ID!
+		person_y_id: ID!
 	): PersonsRelation!
 	top_rated_nearest_restaurants(
-		location: LocationInput!
+		person_location: LocationInput!
 		limit: Int
 	): [TopRatedNearestRestaurant]
 	newest_review_of_restaurant(
@@ -118,6 +116,7 @@ type Query{
 	recent_feedback_to_restaurants_by_friends(
 		person_id: ID!
 	): [RecommendedRestaurant]
+	friends_of_my_friends: [FriendsOfFriend]
 }
 
 type Mutation{
@@ -136,6 +135,9 @@ type Mutation{
 	add_cuisine(
 		input: CuisineInput
 	): Cuisine!
+	add_Friend(
+		friend_Id: ID!
+	): Person!
 }
 
 input PersonInput{
@@ -160,9 +162,7 @@ input ReviewInput{
 
 input RateInput{
 	thumb: Thumb!
-	personId: ID!
 	reviewId: ID!
-	datetime: Float!
 }
 
 type Location{
@@ -194,6 +194,13 @@ type RecommendedRestaurant{
 	restaurant_id: ID!
 	restaurant_name: String!
 	restaurant_location: Location!
+}
+
+type FriendsOfFriend{
+	friend_id: ID!
+	friend_name: String!
+	friend_email: String!
+	friends_of_friend: [PersonFriend]
 }
 schema{
 	query: Query,

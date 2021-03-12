@@ -124,12 +124,13 @@ export type Query = {
   persons?: Maybe<Array<Maybe<Person>>>;
   restaurants?: Maybe<Array<Maybe<Restaurant>>>;
   restaurant?: Maybe<Restaurant>;
-  person_friends?: Maybe<Array<Maybe<PersonFriend>>>;
+  my_friends?: Maybe<Array<Maybe<PersonFriend>>>;
   persons_relation: PersonsRelation;
   top_rated_nearest_restaurants?: Maybe<Array<Maybe<TopRatedNearestRestaurant>>>;
   newest_review_of_restaurant?: Maybe<Review>;
   recommended_restaurants_by_friends?: Maybe<Array<Maybe<RecommendedRestaurant>>>;
   recent_feedback_to_restaurants_by_friends?: Maybe<Array<Maybe<RecommendedRestaurant>>>;
+  friends_of_my_friends?: Maybe<Array<Maybe<FriendsOfFriend>>>;
 };
 
 
@@ -143,19 +144,14 @@ export type QueryRestaurantArgs = {
 };
 
 
-export type QueryPerson_FriendsArgs = {
-  person_id?: Maybe<Scalars['ID']>;
-};
-
-
 export type QueryPersons_RelationArgs = {
-  person_x_id?: Maybe<Scalars['ID']>;
-  person_y_id?: Maybe<Scalars['ID']>;
+  person_x_id: Scalars['ID'];
+  person_y_id: Scalars['ID'];
 };
 
 
 export type QueryTop_Rated_Nearest_RestaurantsArgs = {
-  location: LocationInput;
+  person_location: LocationInput;
   limit?: Maybe<Scalars['Int']>;
 };
 
@@ -181,6 +177,7 @@ export type Mutation = {
   write_review_for_restaurant: Review;
   rate_to_review: Rate;
   add_cuisine: Cuisine;
+  add_Friend: Person;
 };
 
 
@@ -208,6 +205,11 @@ export type MutationAdd_CuisineArgs = {
   input?: Maybe<CuisineInput>;
 };
 
+
+export type MutationAdd_FriendArgs = {
+  friend_Id: Scalars['ID'];
+};
+
 export type PersonInput = {
   name: Scalars['String'];
   email?: Maybe<Scalars['String']>;
@@ -230,9 +232,7 @@ export type ReviewInput = {
 
 export type RateInput = {
   thumb: Thumb;
-  personId: Scalars['ID'];
   reviewId: Scalars['ID'];
-  datetime: Scalars['Float'];
 };
 
 export type Location = {
@@ -267,6 +267,14 @@ export type RecommendedRestaurant = {
   restaurant_id: Scalars['ID'];
   restaurant_name: Scalars['String'];
   restaurant_location: Location;
+};
+
+export type FriendsOfFriend = {
+  __typename?: 'FriendsOfFriend';
+  friend_id: Scalars['ID'];
+  friend_name: Scalars['String'];
+  friend_email: Scalars['String'];
+  friends_of_friend?: Maybe<Array<Maybe<PersonFriend>>>;
 };
 
 
@@ -378,6 +386,7 @@ export type ResolversTypes = {
   Thumb: Thumb;
   TopRatedNearestRestaurant: ResolverTypeWrapper<TopRatedNearestRestaurant>;
   RecommendedRestaurant: ResolverTypeWrapper<RecommendedRestaurant>;
+  FriendsOfFriend: ResolverTypeWrapper<FriendsOfFriend>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -412,6 +421,7 @@ export type ResolversParentTypes = {
   LocationInput: LocationInput;
   TopRatedNearestRestaurant: TopRatedNearestRestaurant;
   RecommendedRestaurant: RecommendedRestaurant;
+  FriendsOfFriend: FriendsOfFriend;
   Boolean: Scalars['Boolean'];
 };
 
@@ -525,12 +535,13 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   persons?: Resolver<Maybe<Array<Maybe<ResolversTypes['Person']>>>, ParentType, ContextType>;
   restaurants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Restaurant']>>>, ParentType, ContextType>;
   restaurant?: Resolver<Maybe<ResolversTypes['Restaurant']>, ParentType, ContextType, RequireFields<QueryRestaurantArgs, 'restaurant_id'>>;
-  person_friends?: Resolver<Maybe<Array<Maybe<ResolversTypes['PersonFriend']>>>, ParentType, ContextType, RequireFields<QueryPerson_FriendsArgs, never>>;
-  persons_relation?: Resolver<ResolversTypes['PersonsRelation'], ParentType, ContextType, RequireFields<QueryPersons_RelationArgs, never>>;
-  top_rated_nearest_restaurants?: Resolver<Maybe<Array<Maybe<ResolversTypes['TopRatedNearestRestaurant']>>>, ParentType, ContextType, RequireFields<QueryTop_Rated_Nearest_RestaurantsArgs, 'location'>>;
+  my_friends?: Resolver<Maybe<Array<Maybe<ResolversTypes['PersonFriend']>>>, ParentType, ContextType>;
+  persons_relation?: Resolver<ResolversTypes['PersonsRelation'], ParentType, ContextType, RequireFields<QueryPersons_RelationArgs, 'person_x_id' | 'person_y_id'>>;
+  top_rated_nearest_restaurants?: Resolver<Maybe<Array<Maybe<ResolversTypes['TopRatedNearestRestaurant']>>>, ParentType, ContextType, RequireFields<QueryTop_Rated_Nearest_RestaurantsArgs, 'person_location'>>;
   newest_review_of_restaurant?: Resolver<Maybe<ResolversTypes['Review']>, ParentType, ContextType, RequireFields<QueryNewest_Review_Of_RestaurantArgs, never>>;
   recommended_restaurants_by_friends?: Resolver<Maybe<Array<Maybe<ResolversTypes['RecommendedRestaurant']>>>, ParentType, ContextType, RequireFields<QueryRecommended_Restaurants_By_FriendsArgs, 'person_id'>>;
   recent_feedback_to_restaurants_by_friends?: Resolver<Maybe<Array<Maybe<ResolversTypes['RecommendedRestaurant']>>>, ParentType, ContextType, RequireFields<QueryRecent_Feedback_To_Restaurants_By_FriendsArgs, 'person_id'>>;
+  friends_of_my_friends?: Resolver<Maybe<Array<Maybe<ResolversTypes['FriendsOfFriend']>>>, ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -539,6 +550,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   write_review_for_restaurant?: Resolver<ResolversTypes['Review'], ParentType, ContextType, RequireFields<MutationWrite_Review_For_RestaurantArgs, never>>;
   rate_to_review?: Resolver<ResolversTypes['Rate'], ParentType, ContextType, RequireFields<MutationRate_To_ReviewArgs, never>>;
   add_cuisine?: Resolver<ResolversTypes['Cuisine'], ParentType, ContextType, RequireFields<MutationAdd_CuisineArgs, never>>;
+  add_Friend?: Resolver<ResolversTypes['Person'], ParentType, ContextType, RequireFields<MutationAdd_FriendArgs, 'friend_Id'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
@@ -557,6 +569,14 @@ export type RecommendedRestaurantResolvers<ContextType = any, ParentType extends
   restaurant_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   restaurant_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   restaurant_location?: Resolver<ResolversTypes['Location'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FriendsOfFriendResolvers<ContextType = any, ParentType extends ResolversParentTypes['FriendsOfFriend'] = ResolversParentTypes['FriendsOfFriend']> = {
+  friend_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  friend_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  friend_email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  friends_of_friend?: Resolver<Maybe<Array<Maybe<ResolversTypes['PersonFriend']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -580,6 +600,7 @@ export type Resolvers<ContextType = any> = {
   Location?: LocationResolvers<ContextType>;
   TopRatedNearestRestaurant?: TopRatedNearestRestaurantResolvers<ContextType>;
   RecommendedRestaurant?: RecommendedRestaurantResolvers<ContextType>;
+  FriendsOfFriend?: FriendsOfFriendResolvers<ContextType>;
 };
 
 

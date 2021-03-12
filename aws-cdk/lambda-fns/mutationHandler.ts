@@ -1,7 +1,7 @@
 import { Callback, Context } from 'aws-lambda';
 import { NewAppSyncResolverEvent } from './typeDefs';
-import { Person, PersonInput, Restaurant, RestaurantInput, Cuisine, CuisineInput, Rate, RateInput, Thumb, Review, ReviewInput, Mutation } from './graphql';
-import { g, gremlinQueryHandler, __ } from './gremlinQueryHandler';
+import { Person, PersonInput, Restaurant, RestaurantInput, Cuisine, CuisineInput, Rate, RateInput, Thumb, Review, ReviewInput, Mutation, MutationAdd_FriendArgs } from './graphql';
+import { g, gremlinQueryHandler, __, P } from './gremlinQueryHandler';
 import { collections, relationships } from './graphDatabaseScheme.json';
 
 export const GQL_MUTATIONS: { [P in keyof Mutation]: string } = {
@@ -10,6 +10,7 @@ export const GQL_MUTATIONS: { [P in keyof Mutation]: string } = {
     write_review_for_restaurant: "write_review_for_restaurant",
     rate_to_review: "rate_to_review",
     add_cuisine: "add_cuisine",
+    add_Friend: "add_Friend",
 }
 
 ////////////////////////// Handler //////////////////////////
@@ -64,7 +65,7 @@ export const handler = async (event: NewAppSyncResolverEvent<any>, context: Cont
                         .select("cuisine", "restaurant")
                         .by(__.elementMap()).by(__.elementMap())
                         .next()
-                    console.log("Result", result)
+                    console.log("Result", JSON.stringify(result, null, 2))
                     const v = result.value as {
                         cuisine: { id: string, label: string, name: string },
                         restaurant: { id: string, label: string, name: string, location: string }
@@ -122,16 +123,67 @@ export const handler = async (event: NewAppSyncResolverEvent<any>, context: Cont
 
 
             case "rate_to_review":
-                const rateInput = event.arguments.input as RateInput;
-                callback(null, {
-                    id: "23423",
-                    datetime: new Date().getTime(),
-                    givenBy: { person_id: "123", person_name: "Murtaza", person_email: "murtaza@gmail.com" },
-                    givenTo: { review_datetime: new Date().getTime(), review_id: "123", review_text: "this is a good restaurant" },
-                    thumb: Thumb.Up,
-                } as Rate)
+                return gremlinQueryHandler(async () => {
+                    const _person = "person"; const _review = "review"; const _rate = "rate";
+                    const { reviewId, thumb } = event.arguments.input as RateInput;
+                    const result = await g.V(reviewId).as(_review)
+                        .V().has(collections[0].collectionName as "Person", '_id', USER_ID).as(_person)
+                        .addE(relationships[3].name as "Rates")
+                        .from_(_person).to(_review)
+                        .property("thumb", thumb).property("datetime", new Date().getTime()).as(_rate)
+                        .select(_person, _review, _rate)
+                        .by(__.elementMap()).by(__.elementMap()).by(__.elementMap())
+                        .next()
+                    console.log("Result", JSON.stringify(result, null, 2))
+                    const v = result.value as {
+                        [_rate]: { id: string, label: string, thumb: Thumb, datetime: number, IN: { id: string, label: string }, OUT: { id: string, label: string } },
+                        [_review]: { id: string, label: string, text: string, datetime: number },
+                        [_person]: { id: string, _id: string, label: string, name: string, email: string }
+                    }
+                    const rate: Rate = {
+                        id: v[_rate].id,
+                        thumb: v[_rate].thumb,
+                        datetime: v[_rate].datetime,
+                        givenBy: { person_id: v[_person].id, person_name: v[_person].name, person_email: v[_person].email },
+                        givenTo: { review_id: v[_review].id, review_text: v[_review].text, review_datetime: v[_review].datetime },
+                    }
+                    return rate;
+                })
                 break;
 
+            case "add_Friend":
+                return gremlinQueryHandler(async () => {
+                    const { friend_Id } = event.arguments as MutationAdd_FriendArgs
+                    const _person = "person"; const _friend = "friend"; const _friendsOfFriend = "friendsOfFriend";
+                    const isAlreadyFriend = await g.V(friend_Id).as(_friend)
+                        .V().has(collections[0].collectionName as "Person", '_id', USER_ID)
+                        .out(relationships[0].name as "Friends").where(P.eq(_friend)).hasNext()
+                    if (isAlreadyFriend) {
+                        throw Error("Both are already Friends")
+                    }
+
+                    const result = await g.V()
+                        .has(collections[0].collectionName as "Person", '_id', USER_ID).as(_person)
+                        .V(friend_Id).as(_friend).as(_friendsOfFriend)
+                        .addE(relationships[0].name as "Friends").from_(_person).to(_friend)
+                        .addE(relationships[0].name as "Friends").from_(_friend).to(_person)
+                        .select(_friend, _friendsOfFriend).by(__.elementMap())
+                        .by(__.out(relationships[0].name as "Friends").elementMap().fold()).next()
+
+                    console.log("Result", JSON.stringify(result, null, 2))
+                    const v = result.value as {
+                        [_friend]: { id: string, _id: string, label: string, name: string, email: string }
+                        [_friendsOfFriend]: { id: string, _id: string, label: string, name: string, email: string }[]
+                    }
+
+                    const personFriend: Person = {
+                        id: v[_friend].id, email: v[_friend].email, name: v[_friend].name,
+                        friends: v[_friendsOfFriend].map((v) => ({ person_id: v.id, person_name: v.name, person_email: v.email }))
+                    }
+                    return personFriend
+                    // return { id: "23fw", email: "mur@gmail.com", name: "Murtaza", friends: [] }
+                })
+                break;
 
 
 
